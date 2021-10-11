@@ -73,7 +73,7 @@ class FotoController extends AppController
         $account_id = $this->request
             ->getAttribute('identity')
             ->getIdentifier();
-        $this->set(compact('account_id')); 
+        $this->set(compact('account_id'));
 
         $categorie = $this->Paginator->paginate($this->Categorie->find());
         $this->set('categorie', $categorie);
