@@ -114,6 +114,7 @@ $cakeDescription = 'CakePHP: the rapid development PHP framework';
                                                 <div class="card "style="height: 225px; width: 100%; display: block;margin-bottom:20px">
                                                         <?php echo $this->Html->image('/img/foto/afbeelding/' . $album_->foto[$x]->get('path') . '/' . $album_->foto[$x]->get('afbeelding'), [
                                                             "alt" => "...", 
+                                                            "url" => ['controller' => 'Foto', 'action' => 'bekijk', $album_->foto[$x]->titel], 
                                                         ]); 
                                                     ?>
                                                 </div>
@@ -161,7 +162,7 @@ $(".badge").click(function(){
 
 
 <?php
-     /*  echo "<pre>";
-        print_r($albumLijst);
-        echo "</pre>";*/
+       echo "<pre>";
+        //print_r($albumLijst);
+        echo "</pre>"; 
     ?>
