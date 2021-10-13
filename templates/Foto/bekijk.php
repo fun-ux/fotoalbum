@@ -3,7 +3,8 @@
 <!-- File: templates/Foto/view.php -->
 <?= $this->Html->image('/img/foto/afbeelding/' . $foto->get('path') . '/' . $foto->get('afbeelding'), [
                             "alt" => "...",
-                             
+                            "class" => "img-fluid",
+                            "style" => "width:500px;height:500px;"
 ])?>
 
 <h3><?= h($foto->titel) ?></h3>
@@ -47,18 +48,7 @@
     <?php endforeach; ?>
 <ol>
 
-
- <?php
-        echo "<pre>";
-        //print_r($foto);
-        echo "</pre>";  
-    ?>
-<?php
  
-       echo "<pre>";
-       // print_r($albumLijst);
-        echo "</pre>"; 
-    ?>
 
 
 <script>

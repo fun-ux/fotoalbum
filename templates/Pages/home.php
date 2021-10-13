@@ -110,13 +110,15 @@ $cakeDescription = 'CakePHP: the rapid development PHP framework';
                             {
                             ?>
                                     
-                                            <div class="col-md-3 <?= $album_->titel ?>" >
-                                                <div class="card "style="height: 225px; width: 100%; display: block;margin-bottom:20px">
+                                            <div class="col-sm-3 col-xs-3 <?= $album_->titel ?>" >
+                                                <div class="card  "style="height: 225px; width: 100%; display: block;margin-bottom:20px">
                                                         <?php echo $this->Html->image('/img/foto/afbeelding/' . $album_->foto[$x]->get('path') . '/' . $album_->foto[$x]->get('afbeelding'), [
                                                             "alt" => "...", 
+                                                            "class" => "img-thumbnail",
                                                             "url" => ['controller' => 'Foto', 'action' => 'bekijk', $album_->foto[$x]->titel], 
                                                         ]); 
                                                     ?>
+                                                    <input type="hidden" class="square_img_" square_path="<?= $album_->foto[$x]->get('path') ?>" square_img="/square_<?=  $album_->foto[$x]->get('afbeelding'); ?>">
                                                 </div>
                                             </div> 
                                     
@@ -149,6 +151,26 @@ $(".badge").click(function(){
   if($(categorie_).children().length == 0){
     $(categorie_).append("<b class='album_categorie_emptyMessage'>Geen foto's gevonden voor categorie!</b>");
   }
+
+
+  var images = $(".row .winter > .card > a > img");
+    var new_values =$(".row .winter > .card > .square_img_");
+    
+
+    for (var i = 0; i < images.length ; i++){
+
+    
+       if(images[i].clientHeight > 225){
+         console.log(images[i].clientHeight);
+        console.log(images[i].src);
+        var square_img = new_values[i].attributes.square_img.value  ;
+        var square_path = new_values[i].attributes.square_path.value  ;
+        
+        var new_src = "./img/foto/afbeelding/"+square_path+square_img;
+        images[i].src = new_src;
+       }//square_
+
+    } 
 
 });
 

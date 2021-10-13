@@ -42,7 +42,13 @@ class FotoTable extends Table
             ->maxLength('titel', 255)
 
             ->notEmptyString('omschrijving')
-            ->minLength('omschrijving', 5);
+            ->minLength('omschrijving', 5)
+
+            
+            ->add('afbeelding', 'file', [
+                'rule' => ['extension', ['jpeg', 'png', 'jpg']],
+                'message' => 'Please choose file with extension jpeg, png or jpg'
+            ]);
 
         return $validator;
     }
