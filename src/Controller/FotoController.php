@@ -26,8 +26,21 @@ class FotoController extends AppController
     public function bekijk($titel = null)
     {
         $this->loadComponent('Paginator');
+        $this->loadModel('Categorie');
+        
         $paginator = $this->paginate($this->Foto);
-        $foto = $this->Foto->findByTitel($titel)->firstOrFail();
+        $foto = $this->Foto
+            ->findByTitel($titel)
+            ->firstOrFail();
+
+        $albumLijst = $this->Categorie
+            ->findById($foto->categorie_id)
+            ->contain(['Foto'])->all();
+        $this->set(compact('albumLijst'));
+        $albumLijst_count = $albumLijst->count();
+        $this->set(compact('albumLijst_count'));
+
+
         $this->set(compact('foto'));
         $this->set(compact('paginator'));
 
@@ -73,7 +86,7 @@ class FotoController extends AppController
         $account_id = $this->request
             ->getAttribute('identity')
             ->getIdentifier();
-        $this->set(compact('account_id')); 
+        $this->set(compact('account_id'));
 
         $categorie = $this->Paginator->paginate($this->Categorie->find());
         $this->set('categorie', $categorie);

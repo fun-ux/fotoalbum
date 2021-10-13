@@ -1,5 +1,5 @@
 
-<h1>Nieuw foto</h1>
+<h1>Nieuwe foto</h1>
 <?php
     echo $this->Form->create($foto, [
         'type' => 'file'

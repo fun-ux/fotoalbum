@@ -91,45 +91,100 @@ $cakeDescription = 'CakePHP: the rapid development PHP framework';
 
                 <div class="row">
                         <?php foreach ($albumLijst as $categorie_): ?>
-                            <div class="col-md-3" style="height: 75px; background-color:gray;border:1px solid;text-align:center"><h3> <?= $this->Html->link($categorie_->titel, ['action' => '', $categorie_->titel]) ?></h3></div>
+                            <div class="col-md-3" style="height: 75px; background-color:gray;border:1px solid;text-align:center">
+                                <h3> 
+                                    <a href="#" class="badge badge-primary"><?= $categorie_->titel ?></a>
+                                </h3>
+                            </div>
                         <?php endforeach; ?>
                 </div>
+                <div class="row album_categorie" id="no_categorie_selected"  ><b>Kies een categorie om foto's te bekijken</b></div>
 
                 <!-- Here is where we iterate through our $foto query object, printing out article info -->
-                <div class="row">
-                    <?php foreach ($foto as $foto_): ?>
+                     <?php foreach ($albumLijst as $album_):  ?>
 
-                        
-                            <div class="col-md-3 <?= $foto_->categorie->titel ?>">
-                                <div class="card "style="height: 225px; width: 100%; display: block;margin-bottom:20px">
-                                     <?php echo $this->Html->image('/img/foto/afbeelding/' . $foto_->get('path') . '/' . $foto_->get('afbeelding'), [
-                                            "alt" => "...", 
-                                        ]); 
-                                    ?>
-                                </div>
-                            </div> 
-                        
+                        <div class="row album_categorie" id="<?= $album_->titel ?>" style="display:none;" >
+
+                            <?php
+                            for ($x = 0; $x <= count($album_->foto) - 1; $x++) 
+                            {
+                            ?>
+                                    
+                                            <div class="col-sm-3 col-xs-3 <?= $album_->titel ?>" >
+                                                <div class="card  "style="height: 225px; width: 100%; display: block;margin-bottom:20px">
+                                                        <?php echo $this->Html->image('/img/foto/afbeelding/' . $album_->foto[$x]->get('path') . '/' . $album_->foto[$x]->get('afbeelding'), [
+                                                            "alt" => "...", 
+                                                            "class" => "img-thumbnail",
+                                                            "url" => ['controller' => 'Foto', 'action' => 'bekijk', $album_->foto[$x]->titel], 
+                                                        ]); 
+                                                    ?>
+                                                    <input type="hidden" class="square_img_" square_path="<?= $album_->foto[$x]->get('path') ?>" square_img="/square_<?=  $album_->foto[$x]->get('afbeelding'); ?>">
+                                                </div>
+                                            </div> 
+                                    
+                                <?php
+                            }
+                            ?>
+
+                        </div>
+
+                            
+
                     <?php endforeach; ?>
-                </div>
-         </div>
+          </div>
     </main>
 
 
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+
+<script>
+
+         
+$(".badge").click(function(){
+  var categorie_ = "#" + $(this).text();
+  $(".album_categorie").hide();
+  $(categorie_).show();
+
+  if($(categorie_).children().length == 0){
+    $(categorie_).append("<b class='album_categorie_emptyMessage'>Geen foto's gevonden voor categorie!</b>");
+  }
+
+
+  var images = $(".row .winter > .card > a > img");
+    var new_values =$(".row .winter > .card > .square_img_");
+    
+
+    for (var i = 0; i < images.length ; i++){
+
+    
+       if(images[i].clientHeight > 225){
+         console.log(images[i].clientHeight);
+        console.log(images[i].src);
+        var square_img = new_values[i].attributes.square_img.value  ;
+        var square_path = new_values[i].attributes.square_path.value  ;
+        
+        var new_src = "./img/foto/afbeelding/"+square_path+square_img;
+        images[i].src = new_src;
+       }//square_
+
+    } 
+
+});
+
+</script>
+
 </body>
 </html>
 
-<?php foreach ($albumLijst as $album_): ?>
 
-    <?= $this->Html->link($album_->titel, ['action' => '', $album_->titel]) ?>
-
-<?php endforeach; ?>
+    
 
 
 <?php
-        /*echo "<pre>";
-        print_r($albumLijst);
-        echo "</pre>";*/
+       echo "<pre>";
+        //print_r($albumLijst);
+        echo "</pre>"; 
     ?>
